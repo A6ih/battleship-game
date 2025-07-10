@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack serve --open --config webpack.dev.js",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "git subtree push --prefix dist origin gh-pages",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
+    "@types/jest": "^30.0.0",
     "@types/webpack-env": "^1.18.8",
     "babel-jest": "^30.0.4",
     "css-loader": "^7.1.2",
@@ -30,6 +32,7 @@
     "jest": "^30.0.4",
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
+    "ts-jest": "^29.4.0",
     "tslint": "^5.20.1",
     "tslint-react": "^4.1.0",
     "typescript": "^5.8.3",
