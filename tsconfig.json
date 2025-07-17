@@ -6,7 +6,7 @@
       "target": "es5",
       "allowJs": true,
       "moduleResolution": "node",
-      "types": ["@types/node", "@nuxt/types", "@types/jest", "nuxt-i18n"],
+      "types": ["@types/node", "@types/jest"],
       "esModuleInterop": true
     }
 }
