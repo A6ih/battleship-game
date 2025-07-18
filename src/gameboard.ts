@@ -93,9 +93,8 @@ export default class Gameboard {
         if(this.filledCords.has(cords)) {
             hitShip(cords, this.ships)
             this.successfulAttacks.add(cords)
-            return
+        } else {
+            this.missedAttacks.add(cords)
         }
-
-        this.missedAttacks.add(cords)
     }
 }
