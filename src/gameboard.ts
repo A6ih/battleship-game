@@ -30,23 +30,6 @@ const hitShip = (cords: string, ships: ShipObj[]) => {
     shipToHit[0].ship.hit()
 }
 
-const checkDuplicateCords = (cords: number[], ships: ShipObj[]) => {
-    if(ships.length === 0) return false
-
-    const result = ships.map((ship: ShipObj) => {
-        if (ship.cords.includes(`${cords[0]}${cords[1]}`)) {
-            return true
-        }
-        return false
-    })
-
-   if(result.includes(true)) {
-    return true
-   } else {
-    return false
-   }
-}
-
 export default class Gameboard {
     size: number
     board: number[][]
@@ -69,7 +52,7 @@ export default class Gameboard {
            this.board[cords[0]][cords[1]] > this.size - 1
         ) return
 
-        if(checkDuplicateCords(cords, this.ships)) return
+        if(this.filledCords.has(`${cords[0]}${cords[1]}`)) return
         
         const newShip : Ship = new Ship(size)
         const newCords: string[] = []
