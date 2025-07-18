@@ -17,4 +17,11 @@ export default class Computer {
             numArr.map(number => this.cordsToHit.push(`${i}${number}`))
         }
     }
+
+    hitEnemy() {
+        const number = Math.floor(Math.random() * this.cordsToHit.length)
+        const cords = this.cordsToHit[number]
+        this.cordsToHit.splice(number, 1)
+        return cords
+    }
 }
