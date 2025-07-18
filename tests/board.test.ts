@@ -47,3 +47,21 @@ describe('attack is succesfull', () => {
         expect(newGame.ships[0].ship.hits).toBe(1)
     })
 })
+
+describe('all the ships', () => {
+    const newGame = new Gameboard(10)
+    newGame.placeShip(3, 'Submarine', [1, 1])
+
+    newGame.recieveAttack('12')
+    newGame.recieveAttack('11')
+    
+    test('are not sunk', () => {
+        expect(newGame.isAllSunk()).toBe(false)
+    })
+
+    test('are sunk', () => {
+        newGame.recieveAttack('13')
+
+        expect(newGame.isAllSunk()).toBe(true)
+    })
+})

@@ -97,4 +97,10 @@ export default class Gameboard {
             this.missedAttacks.add(cords)
         }
     }
+
+    isAllSunk() {
+       const resultArr = this.ships.map((shipObj: ShipObj) => shipObj.ship.isSunk())
+        if(resultArr.includes(false)) return false
+        return true
+    }
 }
