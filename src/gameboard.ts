@@ -86,4 +86,12 @@ export default class Gameboard {
         if(resultArr.includes(false)) return false
         return true
     }
+
+    getHitMissed() {
+        return this.missedAttacks
+    }
+
+    getHitLanded() {
+        return this.successfulAttacks
+    }
 }

@@ -101,3 +101,11 @@ input, button {
     border: 1px solid black;
     background-color: aquamarine;
 }
+
+.hitMissed {
+    background-color: blue;
+}
+
+.hitLanded {
+    background-color: red;
+}

@@ -1,7 +1,16 @@
+let clickedCord: string = ''
+
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
     element.setAttribute(selectorType, selector)
     return element
+}
+
+export const getClickedCord = () => clickedCord
+
+const changeClickedCord = (event : Event) => {
+    const currentId = event.target as HTMLDivElement
+    clickedCord = currentId.id
 }
 
 const hideStartScreen = () => {
@@ -10,16 +19,18 @@ const hideStartScreen = () => {
 }
 
 const createGameboard = (array: number[][], id: string, name:string) => {
-    const boardContainer = createElement('div', 'id', `player-${id}`)
+    const boardContainer = document.getElementById(`player-${id}`)
     const boardHeading = document.createElement('h2')
     boardHeading.textContent = `${name}'s Board`
-    const mainBoard = document.createElement('div')
-    mainBoard.setAttribute('id', id)
+    const mainBoard = document.getElementById(id)
     for (let i = 0; i < array.length; i++) {
-        array[i].map((number: number)  => mainBoard.appendChild(createElement('div', 'id', `${id}${i}${number}`)))
+        array[i].map((number: number)  => {
+            const element = createElement('div', 'id', `${id}-${i}${number}`)
+            element.addEventListener('click', changeClickedCord)
+            mainBoard.appendChild(element)
+        })
     }
     boardContainer.appendChild(boardHeading)
-    boardContainer.appendChild(mainBoard)
     return boardContainer
 }
 
@@ -38,7 +49,15 @@ export const getName = () => {
 
 export const renderShipPlacement = (cords: string[], id: string) => {
     for (let i = 0; i < cords.length; i++) {
-        document.getElementById(`${id}${cords[i]}`).style.backgroundColor = 'gray'
+        document.getElementById(`${id}-${cords[i]}`).style.backgroundColor = 'gray'
     }
+}
+
+export const renderHitLanded = (id: string) => {
+    document.getElementById(id).style.backgroundColor = 'red'
+}
+
+export const renderHitMissed = (id: string) => {
+    document.getElementById(id).style.backgroundColor = 'blue'
 }
 
