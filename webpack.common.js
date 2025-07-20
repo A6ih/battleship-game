@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { presets } = require("./babel.config");
 
 module.exports = {
     mode: "development",
@@ -23,7 +24,15 @@ module.exports = {
             {
                 test: /\.ts?$/,
                 exclude: [path.resolve(__dirname, 'node_modules')],
-                use: ['babel-loader'],
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-typescript",
+                        ]
+                    }
+                },
             },
             {
                 test: /\.js$/,

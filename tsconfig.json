@@ -7,6 +7,8 @@
       "allowJs": true,
       "moduleResolution": "node",
       "types": ["@types/node", "@types/jest"],
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "noEmit": true,
+      "allowImportingTsExtensions": true
     }
 }
