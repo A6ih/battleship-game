@@ -47,18 +47,28 @@ export default class Gameboard {
         this.successfulAttacks = new Set()
     }
 
-    placeShip(size:number, name: string, cords: number[],) {
+    placeShip(size:number, name: string, cords: number[], axis: string) {
         if(this.filledCords.has(`${cords[0]}${cords[1]}`)) return
         
         const newShip : Ship = new Ship(size)
         const newCords: string[] = []
+        
+        if(axis === 'V') {
+            this.filledCords.add([cords[0], cords[1]].join(''))
+            newCords.push([cords[0], cords[1]].join(''))
 
-        this.filledCords.add([cords[0], cords[1]].join(''))
-        newCords.push([cords[0], cords[1]].join(''))
+            for(let i = 1; i < size; i++) {
+              this.filledCords.add([(cords[0] + i), cords[1]].join(''))
+              newCords.push([(cords[0] + i), cords[1]].join(''))
+            }
+        } else {
+            this.filledCords.add([cords[0], cords[1]].join(''))
+            newCords.push([cords[0], cords[1]].join(''))
 
-        for(let i = 1; i < size; i++) {
-            this.filledCords.add([cords[0], (cords[1] + i)].join(''))
-            newCords.push([cords[0], (cords[1] + i)].join(''))
+            for(let i = 1; i < size; i++) {
+              this.filledCords.add([cords[0], (cords[1] + i)].join(''))
+              newCords.push([cords[0], (cords[1] + i)].join(''))
+            }
         }
 
         const shipObj = createShipObj(name, newCords, newShip)
