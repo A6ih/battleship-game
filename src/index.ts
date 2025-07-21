@@ -1,13 +1,12 @@
 import './styles.css';
 import { renderStartGame, getName, renderShipPlacement,
-         getClickedCord, renderHitLanded, renderHitMissed,
-         toggleClick, hideGameBoard, showGameBoard } from './dom.ts';
+        renderHitLanded, renderHitMissed,
+        hideGameBoard, showGameBoard } from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
 let playerOne : Player;
 let computer : Computer
-let lastClicked: string = ''
 
 const computerHit = () => {
     const hit = computer.hitEnemy()
@@ -17,7 +16,7 @@ const computerHit = () => {
      } else {
         renderHitMissed(`A-${hit}`)
      }
-     toggleClick(false)
+     document.getElementById('B').addEventListener('click', attackBoard)
      setTimeout(() => {
         hideGameBoard('A')
         showGameBoard('B')
@@ -40,19 +39,19 @@ const startGame = () => {
     setTimeout(() => hideGameBoard('A'), 1000)
 }
 
-const attackBoard = () => {
-    if(lastClicked === getClickedCord()) return
-    lastClicked = getClickedCord()
-    const cords = getClickedCord().split('-')
-
+const attackBoard = (event: Event) => {
+    const target = event.target as HTMLDivElement
+    console.log(target.id)
+    if(target.classList.contains('hit')) return
+    document.getElementById('B').removeEventListener('click', attackBoard)
+    const cords = target.id.split('-')
     computer.gameboard.recieveAttack(cords[1])
     if(computer.gameboard.getHitLanded().has(cords[1])) {
-        renderHitLanded(lastClicked)
+        renderHitLanded(target.id)
     } else {
-        renderHitMissed(lastClicked)
+        renderHitMissed(target.id)
     }
     
-    toggleClick(true)
     document.getElementById('B').removeEventListener('click', attackBoard)
     if(computer.gameboard.isAllSunk()) return setTimeout(() => alert('congrats you win'), 500)
     setTimeout(() => {

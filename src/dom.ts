@@ -1,22 +1,7 @@
-let clickedCord: string = ''
-let disableClick: boolean = false
-
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
     element.setAttribute(selectorType, selector)
     return element
-}
-
-export const getClickedCord = () => clickedCord
-
-export const toggleClick = (value: boolean) => {
-    disableClick = value
-}
-
-const changeClickedCord = (event : Event) => {
-    if (disableClick) return;
-    const currentId = event.target as HTMLDivElement
-    clickedCord = currentId.id
 }
 
 const hideStartScreen = () => {
@@ -33,7 +18,6 @@ const createGameboard = (array: number[][], id: string, name:string) => {
         array[i].map((number: number)  => {
             const element = createElement('div', 'id', `${id}-${i}${number}`)
             element.classList.add('cords')
-            element.addEventListener('click', changeClickedCord)
             mainBoard.appendChild(element)
         })
     }
@@ -60,16 +44,14 @@ export const renderShipPlacement = (cords: string[], id: string) => {
     }
 }
 
-const removeListener = (id: string) => document.getElementById(id).removeEventListener('click', changeClickedCord)
-
 export const renderHitLanded = (id: string) => {
     document.getElementById(id).classList.add('hitLanded')
-    removeListener(id)
+    document.getElementById(id).classList.add('hit')
 }
 
 export const renderHitMissed = (id: string) => {
     document.getElementById(id).classList.add('hitMissed')
-    removeListener(id)
+    document.getElementById(id).classList.add('hit')
 }
 
 export const hideGameBoard = (id: string) => {
