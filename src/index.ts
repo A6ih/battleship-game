@@ -1,5 +1,7 @@
 import './styles.css';
-import { renderStartGame, getName, renderShipPlacement, getClickedCord, renderHitLanded, renderHitMissed, toggleClick } from './dom.ts';
+import { renderStartGame, getName, renderShipPlacement,
+         getClickedCord, renderHitLanded, renderHitMissed,
+         toggleClick, hideGameBoard, showGameBoard } from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
@@ -16,6 +18,10 @@ const computerHit = () => {
         renderHitMissed(`A-${hit}`)
      }
      toggleClick(false)
+     setTimeout(() => {
+        hideGameBoard('A')
+        showGameBoard('B')
+     }, 1000)
      document.getElementById('B').addEventListener('click', attackBoard)
 }
 
@@ -29,6 +35,7 @@ const startGame = () => {
     playerOne.gameboard.placeShip(4, 'Submarine', [6, 1])
     playerOne.gameboard.placeShip(6, 'Submarine', [8, 4])
     playerOne.gameboard.ships.map(shipObj => renderShipPlacement(shipObj.cords, 'A'))
+    setTimeout(() => hideGameBoard('A'), 1000)
     computer = new Computer()
     computer.gameboard.placeShip(3, 'Destroyer', [0, 0])
     computer.gameboard.placeShip(5, 'Submarine', [2, 0])
@@ -52,6 +59,10 @@ const attackBoard = () => {
     
     toggleClick(true)
     document.getElementById('B').removeEventListener('click', attackBoard)
+    setTimeout(() => {
+        hideGameBoard('B')
+        showGameBoard('A')
+     }, 1000)
     setTimeout(() => computerHit(), 2000)
 }
 

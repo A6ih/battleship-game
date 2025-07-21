@@ -72,3 +72,11 @@ export const renderHitMissed = (id: string) => {
     document.getElementById(id).classList.add('hitMissed')
     removeListener(id)
 }
+
+export const hideGameBoard = (id: string) => {
+    document.getElementById(`player-${id}`).style.display = 'none'
+}
+
+export const showGameBoard = (id: string) => {
+    document.getElementById(`player-${id}`).style.display = 'block'
+}

@@ -98,18 +98,21 @@ input, button {
 .cords {
     width: 2.2rem;
     min-height: 2.2rem;
-    border: 1px solid black;
+    border: 10px solid aquamarine;
     background-color: aquamarine;
+    outline: 2px solid black;
 }
 
 .ship-placement {
+    border: 2px solid aquamarine;
     background-color: gray;
 }
 
 .hitMissed {
-    background-color: blue;
+    background-color: green;
 }
 
 .hitLanded {
+    border: 10px solid aquamarine;
     background-color: red;
 }
