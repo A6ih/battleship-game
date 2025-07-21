@@ -95,11 +95,15 @@ input, button {
     grid-template-columns: repeat(10, 2.2rem);
 }
 
-#A  div, #B  div {
+.cords {
     width: 2.2rem;
     min-height: 2.2rem;
     border: 1px solid black;
     background-color: aquamarine;
+}
+
+.ship-placement {
+    background-color: gray;
 }
 
 .hitMissed {

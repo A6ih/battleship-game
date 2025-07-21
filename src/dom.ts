@@ -26,11 +26,12 @@ const createGameboard = (array: number[][], id: string, name:string) => {
     for (let i = 0; i < array.length; i++) {
         array[i].map((number: number)  => {
             const element = createElement('div', 'id', `${id}-${i}${number}`)
+            element.classList.add('cords')
             element.addEventListener('click', changeClickedCord)
             mainBoard.appendChild(element)
         })
     }
-    boardContainer.appendChild(boardHeading)
+    boardContainer.prepend(boardHeading)
     return boardContainer
 }
 
@@ -49,15 +50,15 @@ export const getName = () => {
 
 export const renderShipPlacement = (cords: string[], id: string) => {
     for (let i = 0; i < cords.length; i++) {
-        document.getElementById(`${id}-${cords[i]}`).style.backgroundColor = 'gray'
+        document.getElementById(`${id}-${cords[i]}`).classList.add('ship-placement')
     }
 }
 
 export const renderHitLanded = (id: string) => {
-    document.getElementById(id).style.backgroundColor = 'red'
+    document.getElementById(id).classList.add('hitLanded')
 }
 
 export const renderHitMissed = (id: string) => {
-    document.getElementById(id).style.backgroundColor = 'blue'
+    document.getElementById(id).classList.add('hitMissed')
 }
 

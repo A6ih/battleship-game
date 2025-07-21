@@ -1,12 +1,20 @@
 import './styles.css';
 import { renderStartGame, getName, renderShipPlacement, getClickedCord, renderHitLanded, renderHitMissed } from './dom.ts';
 import Player from './player.ts';
+import Computer from './computer.ts';
 
 let playerOne : Player;
+let computer : Computer
 let lastClicked: string = ''
 
-const buttonClicked = () => {
-    console.log(getClickedCord())
+const computerHit = () => {
+    const hit = computer.hitEnemy()
+    playerOne.gameboard.recieveAttack(hit)
+    if(playerOne.gameboard.getHitLanded().has(hit)) {
+        renderHitLanded(`A-${hit}`)
+     } else {
+        renderHitMissed(`A-${hit}`)
+     }
 }
 
 
@@ -19,25 +27,30 @@ const startGame = () => {
     playerOne.gameboard.placeShip(4, 'Submarine', [6, 1])
     playerOne.gameboard.placeShip(6, 'Submarine', [8, 4])
     playerOne.gameboard.ships.map(shipObj => renderShipPlacement(shipObj.cords, 'A'))
+    computer = new Computer()
+    computer.gameboard.placeShip(3, 'Destroyer', [0, 0])
+    computer.gameboard.placeShip(5, 'Submarine', [2, 0])
+    computer.gameboard.placeShip(4, 'Submarine', [4, 3])
+    computer.gameboard.placeShip(4, 'Submarine', [6, 1])
+    computer.gameboard.placeShip(6, 'Submarine', [8, 4])
+    computer.fillCordsToHit()
 }
 
 const attackBoard = () => {
     if(lastClicked === getClickedCord()) return
     lastClicked = getClickedCord()
     const cords = getClickedCord().split('-')
-    if(cords[0] === 'A') {
-        playerOne.gameboard.recieveAttack(cords[1])
-    }
-    if(playerOne.gameboard.getHitLanded().has(cords[1])) {
+
+    computer.gameboard.recieveAttack(cords[1])
+    if(computer.gameboard.getHitLanded().has(cords[1])) {
         renderHitLanded(lastClicked)
     } else {
         renderHitMissed(lastClicked)
     }
 
-    console.log(playerOne.gameboard.isAllSunk())
+    setTimeout(() => computerHit(), 1000)
 }
 
 document.getElementById('start-button').addEventListener('click', startGame)
 
-document.getElementById('A').addEventListener('click', attackBoard)
 document.getElementById('B').addEventListener('click', attackBoard)
