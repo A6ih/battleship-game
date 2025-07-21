@@ -28,21 +28,16 @@ const computerHit = () => {
 
 const startGame = () => {
     playerOne = new Player(getName())
-    renderStartGame(playerOne.gameboard.board)
+    computer = new Computer()
+    computer.placeShips()
     playerOne.gameboard.placeShip(3, 'Destroyer', [0, 0])
     playerOne.gameboard.placeShip(5, 'Submarine', [2, 0])
     playerOne.gameboard.placeShip(4, 'Submarine', [4, 3])
     playerOne.gameboard.placeShip(4, 'Submarine', [6, 1])
     playerOne.gameboard.placeShip(6, 'Submarine', [8, 4])
+    renderStartGame(playerOne.gameboard.board)
     playerOne.gameboard.ships.map(shipObj => renderShipPlacement(shipObj.cords, 'A'))
     setTimeout(() => hideGameBoard('A'), 1000)
-    computer = new Computer()
-    computer.gameboard.placeShip(3, 'Destroyer', [0, 0])
-    computer.gameboard.placeShip(5, 'Submarine', [2, 0])
-    computer.gameboard.placeShip(4, 'Submarine', [4, 3])
-    computer.gameboard.placeShip(4, 'Submarine', [6, 1])
-    computer.gameboard.placeShip(6, 'Submarine', [8, 4])
-    computer.fillCordsToHit()
 }
 
 const attackBoard = () => {
@@ -59,6 +54,7 @@ const attackBoard = () => {
     
     toggleClick(true)
     document.getElementById('B').removeEventListener('click', attackBoard)
+    if(computer.gameboard.isAllSunk()) return setTimeout(() => alert('congrats you win'), 500)
     setTimeout(() => {
         hideGameBoard('B')
         showGameBoard('A')

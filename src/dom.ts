@@ -17,7 +17,6 @@ const changeClickedCord = (event : Event) => {
     if (disableClick) return;
     const currentId = event.target as HTMLDivElement
     clickedCord = currentId.id
-    console.log(currentId.id)
 }
 
 const hideStartScreen = () => {

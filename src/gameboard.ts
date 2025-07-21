@@ -48,10 +48,6 @@ export default class Gameboard {
     }
 
     placeShip(size:number, name: string, cords: number[],) {
-        if(this.board[cords[0]][cords[1]] < 0 ||
-           this.board[cords[0]][cords[1]] > this.size - 1
-        ) return
-
         if(this.filledCords.has(`${cords[0]}${cords[1]}`)) return
         
         const newShip : Ship = new Ship(size)
@@ -93,5 +89,9 @@ export default class Gameboard {
 
     getHitLanded() {
         return this.successfulAttacks
+    }
+
+    getFilledCords() {
+        return this.filledCords
     }
 }
