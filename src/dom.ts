@@ -1,4 +1,5 @@
 let clickedCord: string = ''
+let disableClick: boolean = false
 
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
@@ -8,9 +9,15 @@ const createElement = (type: string, selectorType: string, selector:string) => {
 
 export const getClickedCord = () => clickedCord
 
+export const toggleClick = (value: boolean) => {
+    disableClick = value
+}
+
 const changeClickedCord = (event : Event) => {
+    if (disableClick) return;
     const currentId = event.target as HTMLDivElement
     clickedCord = currentId.id
+    console.log(currentId.id)
 }
 
 const hideStartScreen = () => {
@@ -54,11 +61,14 @@ export const renderShipPlacement = (cords: string[], id: string) => {
     }
 }
 
+const removeListener = (id: string) => document.getElementById(id).removeEventListener('click', changeClickedCord)
+
 export const renderHitLanded = (id: string) => {
     document.getElementById(id).classList.add('hitLanded')
+    removeListener(id)
 }
 
 export const renderHitMissed = (id: string) => {
     document.getElementById(id).classList.add('hitMissed')
+    removeListener(id)
 }
-

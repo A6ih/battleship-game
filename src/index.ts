@@ -1,5 +1,5 @@
 import './styles.css';
-import { renderStartGame, getName, renderShipPlacement, getClickedCord, renderHitLanded, renderHitMissed } from './dom.ts';
+import { renderStartGame, getName, renderShipPlacement, getClickedCord, renderHitLanded, renderHitMissed, toggleClick } from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
@@ -15,6 +15,8 @@ const computerHit = () => {
      } else {
         renderHitMissed(`A-${hit}`)
      }
+     toggleClick(false)
+     document.getElementById('B').addEventListener('click', attackBoard)
 }
 
 
@@ -47,8 +49,10 @@ const attackBoard = () => {
     } else {
         renderHitMissed(lastClicked)
     }
-
-    setTimeout(() => computerHit(), 1000)
+    
+    toggleClick(true)
+    document.getElementById('B').removeEventListener('click', attackBoard)
+    setTimeout(() => computerHit(), 2000)
 }
 
 document.getElementById('start-button').addEventListener('click', startGame)
