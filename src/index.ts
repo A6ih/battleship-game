@@ -2,11 +2,56 @@ import './styles.css';
 import { renderStartGame, getName, renderShipPlacement,
         renderHitLanded, renderHitMissed, renderDock,
         hideGameBoard, showGameBoard } from './dom.ts';
+import { generateCords, generateCordsVertical } from './helperFns.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
 let playerOne : Player;
 let computer : Computer
+
+const addColor = (e: Event) => {
+    const axis = 'x' // placeHolder
+    const target = e.target as HTMLElement
+    const cordsArr = target.id.split('-')
+    const numberCords = cordsArr[1].split('')
+    let changeCords
+    if(axis === 'x') {
+        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], 5)
+    } else {
+        changeCords = generateCords([+numberCords[0], +numberCords[1]], 5)
+    } 
+    const result = changeCords.map(cord => document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement)
+    if(result.includes(null)) {
+        result.map(element => {
+        if(!element) return
+        element.style.backgroundColor = 'red'
+     })
+    } else {
+        result.map(element => {
+        element.style.backgroundColor = 'green'
+     }
+    )
+    }
+}
+
+const removeColor = (e: Event) => {
+    const axis = 'x' // placeHolder
+    const target = e.target as HTMLElement
+    const cordsArr = target.id.split('-')
+    const numberCords = cordsArr[1].split('')
+    let changeCords
+    if(axis === 'x') {
+        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], 5)
+    } else {
+        changeCords = generateCords([+numberCords[0], +numberCords[1]], 5)
+    } 
+    changeCords.map(cord => {
+        const target = document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement
+         if(!target) return
+        target.style.backgroundColor = 'aquamarine'
+     }
+    )
+}
 
 const computerHit = () => {
     const hit = computer.hitEnemy()
@@ -30,6 +75,12 @@ const enterGame = () => {
     computer.placeShips()
     renderStartGame(playerOne.gameboard.board)
     renderDock()
+    const cordsArr = Array.from(document.getElementsByClassName('cords'))
+    cordsArr.map(element => {
+        element.addEventListener('mouseenter', addColor)
+        element.addEventListener('mouseleave', removeColor)
+    })
+
     hideGameBoard('B')
 }
 
@@ -73,3 +124,4 @@ const attackBoard = (event: Event) => {
 document.getElementById('start-button').addEventListener('click', enterGame)
 
 document.getElementById('B').addEventListener('click', attackBoard)
+
