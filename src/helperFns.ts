@@ -6,23 +6,23 @@ type Ship = {
 export const getShipsArr = () => {
   const carrier: Ship = {
     size: 5,
-    name: 'carrier',
+    name: 'Carrier',
   };
   const battleship: Ship = {
     size: 4,
-    name: 'battleship',
+    name: 'Battleship',
   };
   const destroyer: Ship = {
     size: 3,
-    name: 'destroyer',
+    name: 'Cruiser',
   };
   const submarine: Ship = {
     size: 3,
-    name: 'submarine',
+    name: 'Submarine',
   };
   const patrolBoat: Ship = {
     size: 2,
-    name: 'patrol boat',
+    name: 'Destroyer',
   };
 
   const arr: Ship[] = [carrier, battleship, destroyer, submarine, patrolBoat];

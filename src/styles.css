@@ -88,19 +88,35 @@ input, button {
 
 #player-A, #player-B {
     margin-top: 3rem;
+    outline: 1px solid brown;
 }
 
 #A, #B {
     display: grid;
-    grid-template-columns: repeat(10, 2.2rem);
+    grid-template-columns: repeat(10, 3.5rem);
 }
 
 .cords {
-    width: 2.2rem;
-    min-height: 2.2rem;
-    border: 10px solid aquamarine;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 5px solid aquamarine;
     background-color: aquamarine;
     outline: 2px solid black;
+}
+
+#dock-container {
+    margin-top: 12px;
+}
+
+#ship-container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.dock-ships {
+    padding: 5px 15px;
+    border: 2px solid black;
 }
 
 .ship-placement {

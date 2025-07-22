@@ -1,3 +1,5 @@
+import { getShipsArr } from "./helperFns.ts"
+
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
     element.setAttribute(selectorType, selector)
@@ -12,7 +14,7 @@ const hideStartScreen = () => {
 const createGameboard = (array: number[][], id: string, name:string) => {
     const boardContainer = document.getElementById(`player-${id}`)
     const boardHeading = document.createElement('h2')
-    boardHeading.textContent = `${name}'s Board`
+    boardHeading.textContent = `${name}'s Grid`
     const mainBoard = document.getElementById(id)
     for (let i = 0; i < array.length; i++) {
         array[i].map((number: number)  => {
@@ -60,4 +62,15 @@ export const hideGameBoard = (id: string) => {
 
 export const showGameBoard = (id: string) => {
     document.getElementById(`player-${id}`).style.display = 'block'
+}
+
+export const renderDock = () => {
+    const shipArr = getShipsArr()
+    const shipContainer = document.getElementById('ship-container')
+    shipArr.map(shipObj => {
+        const ship = createElement('div', 'id', `${shipObj.name.toLowerCase()}-${shipObj.size}`)
+        ship.classList.add('dock-ships')
+        ship.textContent = `${shipObj.name}(${shipObj.size})`
+        shipContainer.appendChild(ship)
+    })
 }

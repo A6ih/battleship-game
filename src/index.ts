@@ -1,6 +1,6 @@
 import './styles.css';
 import { renderStartGame, getName, renderShipPlacement,
-        renderHitLanded, renderHitMissed,
+        renderHitLanded, renderHitMissed, renderDock,
         hideGameBoard, showGameBoard } from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
@@ -24,6 +24,14 @@ const computerHit = () => {
      document.getElementById('B').addEventListener('click', attackBoard)
 }
 
+const enterGame = () => {
+    playerOne = new Player(getName())
+    computer = new Computer()
+    computer.placeShips()
+    renderStartGame(playerOne.gameboard.board)
+    renderDock()
+    hideGameBoard('B')
+}
 
 const startGame = () => {
     playerOne = new Player(getName())
@@ -62,6 +70,6 @@ const attackBoard = (event: Event) => {
     setTimeout(() => computerHit(), 2000)
 }
 
-document.getElementById('start-button').addEventListener('click', startGame)
+document.getElementById('start-button').addEventListener('click', enterGame)
 
 document.getElementById('B').addEventListener('click', attackBoard)
