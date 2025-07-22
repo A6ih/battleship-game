@@ -103,5 +103,5 @@ export default class Gameboard {
 
     getFilledCords() {
         return this.filledCords
-    }
+    }      
 }
