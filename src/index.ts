@@ -1,33 +1,14 @@
 import './styles.css';
 import { renderStartGame, getName, renderShipPlacement,
         renderHitLanded, renderHitMissed, renderDock,
-        hideGameBoard, showGameBoard, activateHighlighting,
-        disableHighlighting, toggleCurrentShip, getCurrentCords,
-        getCurrentShip,
-        removeHighlight,
-        removeShip} from './dom.ts';
+        hideGameBoard, showGameBoard, getCurrentCords,
+        getCurrentShip, removeHighlight, removeShip,
+        enablePlacement} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
 let playerOne : Player;
 let computer : Computer
-
-const dragShipStart = (e: Event) => {
-    const target = e.target as HTMLElement
-    const targets = target.id.split('-')
-    const ship = {
-        name: targets[0],
-        size: +targets[1]
-    }
-    toggleCurrentShip(ship)
-    setTimeout(() => {
-      activateHighlighting()
-    }, 10);
-}
-
-const dragShipEnd = (e: Event) => {
-    disableHighlighting()
-}
 
 const computerHit = () => {
     const hit = computer.hitEnemy()
@@ -70,28 +51,12 @@ const enterGame = () => {
     renderStartGame(playerOne.gameboard.board)
     renderDock()
     hideGameBoard('B')
-    const ships = Array.from(document.getElementsByClassName('dock-ships'))
-    ships.map(element => {
-        element.addEventListener('dragstart', dragShipStart)
-        element.addEventListener('dragend', dragShipEnd)
-    })
-    const grids = Array.from(document.getElementsByClassName('cords'))
-    grids.map(grid => grid.addEventListener('drop', placeShip))
+    enablePlacement()
+    document.getElementById('A').addEventListener('drop', placeShip)
 }
 
 const startGame = () => {
-    playerOne = new Player(getName())
-    computer = new Computer()
-    computer.placeShips()
-    playerOne.gameboard.placeShip(3, 'Destroyer', [0, 0], 'H')
-    playerOne.gameboard.placeShip(5, 'Submarine', [2, 0], 'H')
-    playerOne.gameboard.placeShip(4, 'Submarine', [4, 3], 'H')
-    playerOne.gameboard.placeShip(4, 'Submarine', [6, 1], 'H')
-    playerOne.gameboard.placeShip(6, 'Submarine', [8, 4], 'H')
-    renderStartGame(playerOne.gameboard.board)
-    playerOne.gameboard.ships.map(shipObj => renderShipPlacement(shipObj.cords, 'A'))
-    computer.gameboard.ships.map(shipObj => renderShipPlacement(shipObj.cords, 'B'))
-    setTimeout(() => hideGameBoard('A'), 1000)
+    
 }
 
 const attackBoard = (event: Event) => {

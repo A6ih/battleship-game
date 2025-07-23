@@ -177,3 +177,25 @@ export const removeShip = () => {
     const shipElement = document.getElementById(`${currentShip.name}-${currentShip.size}`)
     shipElement.style.visibility = 'hidden'
 }
+
+const dragShipStart = (e: Event) => {
+    const target = e.target as HTMLElement
+    const targets = target.id.split('-')
+    const ship = {
+        name: targets[0],
+        size: +targets[1]
+    }
+    toggleCurrentShip(ship)
+    setTimeout(() => {
+      activateHighlighting()
+    }, 10);
+}
+
+const dragShipEnd = (e: Event) => {
+    disableHighlighting()
+}
+
+export const enablePlacement = () => {
+    document.getElementById('ship-container').addEventListener('dragstart', dragShipStart)
+    document.getElementById('ship-container').addEventListener('dragend', dragShipEnd)
+}
