@@ -103,5 +103,10 @@ export default class Gameboard {
 
     getFilledCords() {
         return this.filledCords
-    }      
+    }
+    
+    isValidPlacement(cords: string[]) {
+        const results = cords.map(cord => this.filledCords.has(cord))
+        return results.includes(true) ? false : true
+    } 
 }

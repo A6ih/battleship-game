@@ -70,6 +70,8 @@ h1 {
 h2 {
     font-size: 1.4rem;
     margin-bottom: 5px;
+    grid-area: header;
+    text-align: start;
 }
 
 #login-screen, #name-input {
@@ -89,34 +91,44 @@ input, button {
 #player-A, #player-B {
     margin-top: 3rem;
     outline: 1px solid brown;
+    display: grid;
+    grid-template-areas: "header header header"
+                         "board board controller"
+                         "board board controller"
+                         "dock dock dock";
+    gap: 6px
 }
 
 #A, #B {
     display: grid;
     grid-template-columns: repeat(10, 3.5rem);
+    grid-area: board;
 }
 
 .cords {
     width: 3.5rem;
     height: 3.5rem;
-    border: 5px solid aquamarine;
+    border: 6px solid aquamarine;
     background-color: aquamarine;
     outline: 2px solid black;
 }
 
 #dock-container {
     margin-top: 12px;
+    grid-area: dock;
 }
 
 #ship-container {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    gap: 2px;
 }
 
 .dock-ships {
-    padding: 5px 15px;
+    padding: 30px 15px;
     border: 2px solid black;
+    border-radius: 4px;
 }
 
 .ship-placement {
@@ -131,4 +143,8 @@ input, button {
 .hitLanded {
     border: 10px solid aquamarine;
     background-color: red;
+}
+
+.filled {
+    background-color: gray;
 }

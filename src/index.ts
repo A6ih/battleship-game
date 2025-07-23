@@ -1,56 +1,32 @@
 import './styles.css';
 import { renderStartGame, getName, renderShipPlacement,
         renderHitLanded, renderHitMissed, renderDock,
-        hideGameBoard, showGameBoard } from './dom.ts';
-import { generateCords, generateCordsVertical } from './helperFns.ts';
+        hideGameBoard, showGameBoard, activateHighlighting,
+        disableHighlighting, toggleCurrentShip, getCurrentCords,
+        getCurrentShip,
+        removeHighlight,
+        removeShip} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
 let playerOne : Player;
 let computer : Computer
 
-const addColor = (e: Event) => {
-    const axis = 'x' // placeHolder
+const dragShipStart = (e: Event) => {
     const target = e.target as HTMLElement
-    const cordsArr = target.id.split('-')
-    const numberCords = cordsArr[1].split('')
-    let changeCords
-    if(axis === 'x') {
-        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], 5)
-    } else {
-        changeCords = generateCords([+numberCords[0], +numberCords[1]], 5)
-    } 
-    const result = changeCords.map(cord => document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement)
-    if(result.includes(null)) {
-        result.map(element => {
-        if(!element) return
-        element.style.backgroundColor = 'red'
-     })
-    } else {
-        result.map(element => {
-        element.style.backgroundColor = 'green'
-     }
-    )
+    const targets = target.id.split('-')
+    const ship = {
+        name: targets[0],
+        size: +targets[1]
     }
+    toggleCurrentShip(ship)
+    setTimeout(() => {
+      activateHighlighting()
+    }, 10);
 }
 
-const removeColor = (e: Event) => {
-    const axis = 'x' // placeHolder
-    const target = e.target as HTMLElement
-    const cordsArr = target.id.split('-')
-    const numberCords = cordsArr[1].split('')
-    let changeCords
-    if(axis === 'x') {
-        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], 5)
-    } else {
-        changeCords = generateCords([+numberCords[0], +numberCords[1]], 5)
-    } 
-    changeCords.map(cord => {
-        const target = document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement
-         if(!target) return
-        target.style.backgroundColor = 'aquamarine'
-     }
-    )
+const dragShipEnd = (e: Event) => {
+    disableHighlighting()
 }
 
 const computerHit = () => {
@@ -69,19 +45,38 @@ const computerHit = () => {
      document.getElementById('B').addEventListener('click', attackBoard)
 }
 
+const placeShip = (event: Event) => {
+    event.preventDefault()
+    const target = event.target as HTMLElement
+    console.log(playerOne.gameboard.ships)
+    removeHighlight(event)
+    const cords = target.id.split('-')[1].split('')
+    if(target.classList.contains('filled')) return
+    if(getCurrentCords().length === 0) return
+    const ship = getCurrentShip()
+    playerOne.gameboard.placeShip(+ship.size, ship.name, [+cords[0], +cords[1]], 'V')
+    const currentCords = getCurrentCords()
+    currentCords.map(cord => {
+        const element = document.getElementById(`${target.id.split('-')[0]}-${cord}`)
+        element.classList.add('filled')
+    })
+    removeShip()
+}
+
 const enterGame = () => {
     playerOne = new Player(getName())
     computer = new Computer()
     computer.placeShips()
     renderStartGame(playerOne.gameboard.board)
     renderDock()
-    const cordsArr = Array.from(document.getElementsByClassName('cords'))
-    cordsArr.map(element => {
-        element.addEventListener('mouseenter', addColor)
-        element.addEventListener('mouseleave', removeColor)
-    })
-
     hideGameBoard('B')
+    const ships = Array.from(document.getElementsByClassName('dock-ships'))
+    ships.map(element => {
+        element.addEventListener('dragstart', dragShipStart)
+        element.addEventListener('dragend', dragShipEnd)
+    })
+    const grids = Array.from(document.getElementsByClassName('cords'))
+    grids.map(grid => grid.addEventListener('drop', placeShip))
 }
 
 const startGame = () => {
@@ -100,8 +95,7 @@ const startGame = () => {
 }
 
 const attackBoard = (event: Event) => {
-    const target = event.target as HTMLDivElement
-    console.log(target.id)
+    const target = event.target as HTMLElement
     if(target.classList.contains('hit')) return
     document.getElementById('B').removeEventListener('click', attackBoard)
     const cords = target.id.split('-')
@@ -124,4 +118,3 @@ const attackBoard = (event: Event) => {
 document.getElementById('start-button').addEventListener('click', enterGame)
 
 document.getElementById('B').addEventListener('click', attackBoard)
-

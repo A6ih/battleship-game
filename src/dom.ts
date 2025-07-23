@@ -1,4 +1,15 @@
-import { getShipsArr } from "./helperFns.ts"
+import { getShipsArr, generateCords, generateCordsVertical } from "./helperFns.ts"
+
+type Ship = {
+    name: string,
+    size: number
+}
+
+let currentShip: Ship = {
+    name: 'Destroyer',
+    size: 5
+}
+let currentCords: string[]
 
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
@@ -70,7 +81,99 @@ export const renderDock = () => {
     shipArr.map(shipObj => {
         const ship = createElement('div', 'id', `${shipObj.name.toLowerCase()}-${shipObj.size}`)
         ship.classList.add('dock-ships')
+        ship.setAttribute('draggable', 'true')
         ship.textContent = `${shipObj.name}(${shipObj.size})`
         shipContainer.appendChild(ship)
     })
+}
+
+const highlightPlacement = (e: Event) => {
+    e.preventDefault()
+    const axis = 'x' // placeHolder
+    const target = e.target as HTMLElement
+    console.log(target.id)
+    const cordsArr = target.id.split('-')
+    const numberCords = cordsArr[1].split('')
+    let changeCords
+    if(axis === 'x') {
+        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], currentShip.size)
+    } else {
+        changeCords = generateCords([+numberCords[0], +numberCords[1]], currentShip.size)
+    } 
+    const result = changeCords.map(cord => document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement)
+    const checkFilledCords = result.map(element => {
+        if(!element) return
+        return element.classList.contains('filled') 
+    })
+    if(result.includes(null) || checkFilledCords.includes(true)) {
+        setTimeout(() => {
+            result.map(element => {
+            if(!element) return
+             element.style.borderColor = 'red'
+            })
+        }, 0)
+        currentCords = []
+    } else {
+        setTimeout(() => {
+            result.map(element => {
+            element.style.borderColor = 'green'
+            })
+            }, 0)
+        currentCords = changeCords
+    }
+}
+
+export const removeHighlight = (e: Event) => {
+    const axis = 'x' // placeHolder
+    const target = e.target as HTMLElement
+    const cordsArr = target.id.split('-')
+    const numberCords = cordsArr[1].split('')
+    let changeCords
+    if(axis === 'x') {
+        changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], currentShip.size)
+    } else {
+        changeCords = generateCords([+numberCords[0], +numberCords[1]], currentShip.size)
+    } 
+    changeCords.map(cord => {
+        const target = document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement
+         if(!target) return
+        target.style.borderColor = 'aquamarine'
+     }
+    )
+}
+
+export const activateHighlighting = () => {
+    const cordsArr = Array.from(document.getElementsByClassName('cords'))
+    cordsArr.map(element => {
+        element.addEventListener('dragenter', highlightPlacement)
+        element.addEventListener('dragleave', removeHighlight)
+        element.addEventListener("dragover", (event) => {
+           event.preventDefault();
+        }, false,)
+    })
+}
+
+export const disableHighlighting = () => {
+    const cordsArr = Array.from(document.getElementsByClassName('cords'))
+    cordsArr.map(element => {
+        element.removeEventListener('dragenter', highlightPlacement)
+        element.removeEventListener('dragleave', removeHighlight)
+    })
+}
+
+export const toggleCurrentShip = (ship: Ship) => {
+    currentShip = ship
+}
+
+export const getCurrentCords = () => {
+    return currentCords
+}
+
+export const getCurrentShip = () => {
+    return currentShip
+}
+
+export const removeShip = () => {
+    const shipElement = document.getElementById(`${currentShip.name}-${currentShip.size}`)
+    shipElement.style.visibility = 'hidden'
 }
