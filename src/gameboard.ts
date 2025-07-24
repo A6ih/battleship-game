@@ -53,7 +53,7 @@ export default class Gameboard {
         const newShip : Ship = new Ship(size)
         const newCords: string[] = []
         
-        if(axis === 'V') {
+        if(axis === 'y') {
             this.filledCords.add([cords[0], cords[1]].join(''))
             newCords.push([cords[0], cords[1]].join(''))
 

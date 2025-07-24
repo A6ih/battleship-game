@@ -9,7 +9,23 @@ let currentShip: Ship = {
     name: 'Destroyer',
     size: 5
 }
+
 let currentCords: string[]
+
+let currentAxis: string = 'x'
+
+const toggleAxis = (e: Event) => {
+    const target = e.target as HTMLElement
+    if(target.id === 'y-button') {
+        currentAxis = 'y'
+        target.style.borderColor = 'aquamarine'
+        document.getElementById('x-button').style.borderColor = 'black'
+    } else {
+        currentAxis = 'x'
+        target.style.borderColor = 'aquamarine'
+        document.getElementById('y-button').style.borderColor = 'black'
+    }
+}
 
 const createElement = (type: string, selectorType: string, selector:string) => {
     const element = document.createElement(type)
@@ -87,15 +103,36 @@ export const renderDock = () => {
     })
 }
 
+const renderControlBtns = () => {
+    const container = document.getElementById('controller-container') as HTMLElement
+    const axisXBtn = createElement('button', 'id', 'x-button')
+    const axisYBtn = createElement('button', 'id', 'y-button')
+    const resetBtn = createElement('button', 'id', 'reset-placement')
+    const startBtn = createElement('button', 'id', 'start-btn')
+    axisXBtn.textContent = 'Axis X'
+    axisYBtn.textContent = 'Axis Y'
+    resetBtn.textContent = 'Reset'
+    startBtn.textContent = 'Start'
+    startBtn.style.visibility = 'hidden'
+    axisXBtn.addEventListener('click', toggleAxis)
+    axisYBtn.addEventListener('click', toggleAxis)
+    axisXBtn.style.borderColor = 'aquamarine'
+    const btnArr = [axisXBtn, axisYBtn, resetBtn, startBtn]
+    btnArr.map(btn => {
+        btn.classList.add('control-btns')
+        container.appendChild(btn)
+    })
+}
+
 const highlightPlacement = (e: Event) => {
     e.preventDefault()
-    const axis = 'x' // placeHolder
+    const axis = currentAxis // placeHolder
     const target = e.target as HTMLElement
     console.log(target.id)
     const cordsArr = target.id.split('-')
     const numberCords = cordsArr[1].split('')
     let changeCords
-    if(axis === 'x') {
+    if(axis === 'y') {
         changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], currentShip.size)
     } else {
         changeCords = generateCords([+numberCords[0], +numberCords[1]], currentShip.size)
@@ -124,12 +161,12 @@ const highlightPlacement = (e: Event) => {
 }
 
 export const removeHighlight = (e: Event) => {
-    const axis = 'x' // placeHolder
+    const axis = currentAxis // placeHolder
     const target = e.target as HTMLElement
     const cordsArr = target.id.split('-')
     const numberCords = cordsArr[1].split('')
     let changeCords
-    if(axis === 'x') {
+    if(axis === 'y') {
         changeCords = generateCordsVertical([+numberCords[0], +numberCords[1]], currentShip.size)
     } else {
         changeCords = generateCords([+numberCords[0], +numberCords[1]], currentShip.size)
@@ -198,4 +235,14 @@ const dragShipEnd = (e: Event) => {
 export const enablePlacement = () => {
     document.getElementById('ship-container').addEventListener('dragstart', dragShipStart)
     document.getElementById('ship-container').addEventListener('dragend', dragShipEnd)
+    renderControlBtns()
 }
+
+export const disablePlacement = () => {
+    document.getElementById('ship-container').removeEventListener('dragstart', dragShipStart)
+    document.getElementById('ship-container').removeEventListener('dragend', dragShipEnd)
+    document.getElementById('dock-container').style.display = 'none'
+    document.getElementById('controller-container').style.display = 'none'
+}
+
+export const getCurrentAxis = () => currentAxis

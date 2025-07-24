@@ -131,6 +131,10 @@ input, button {
     border-radius: 4px;
 }
 
+.filled {
+    background-color: gray;
+}
+
 .ship-placement {
     border: 2px solid aquamarine;
     background-color: gray;
@@ -145,6 +149,8 @@ input, button {
     background-color: red;
 }
 
-.filled {
-    background-color: gray;
+#controller-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }

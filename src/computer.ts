@@ -4,9 +4,9 @@ import { getShipsArr, generateCords, generateCordsVertical } from './helperFns.t
 const getAxis = () => {
   const number = Math.floor(Math.random() * 2);
   if (number === 1) {
-    return 'H';
+    return 'x';
   } else {
-    return 'V';
+    return 'y';
   }
 };
 
@@ -19,7 +19,7 @@ const getFinalCords = (
   const number = Math.floor(Math.random() * placeShip.length);
   const cordsArr = placeShip[number].split('');
   const cordsArrNum = [Number(cordsArr[0]), Number(cordsArr[1])];
-  if (axis === 'V') {
+  if (axis === 'y') {
     if (cordsArrNum[0] + size > 9) {
       return getFinalCords(placeShip, filledCords, size, axis);
     }

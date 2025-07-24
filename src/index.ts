@@ -3,12 +3,16 @@ import { renderStartGame, getName, renderShipPlacement,
         renderHitLanded, renderHitMissed, renderDock,
         hideGameBoard, showGameBoard, getCurrentCords,
         getCurrentShip, removeHighlight, removeShip,
-        enablePlacement} from './dom.ts';
+        enablePlacement,
+        disablePlacement,
+        getCurrentAxis} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
 let playerOne : Player;
 let computer : Computer
+const playerOneGrid = document.getElementById('A') as HTMLElement
+const playerTwoGrid = document.getElementById('B') as HTMLElement
 
 const computerHit = () => {
     const hit = computer.hitEnemy()
@@ -18,12 +22,11 @@ const computerHit = () => {
      } else {
         renderHitMissed(`A-${hit}`)
      }
-     document.getElementById('B').addEventListener('click', attackBoard)
+     playerTwoGrid.addEventListener('click', attackBoard)
      setTimeout(() => {
         hideGameBoard('A')
         showGameBoard('B')
      }, 1000)
-     document.getElementById('B').addEventListener('click', attackBoard)
 }
 
 const placeShip = (event: Event) => {
@@ -35,13 +38,19 @@ const placeShip = (event: Event) => {
     if(target.classList.contains('filled')) return
     if(getCurrentCords().length === 0) return
     const ship = getCurrentShip()
-    playerOne.gameboard.placeShip(+ship.size, ship.name, [+cords[0], +cords[1]], 'V')
+    playerOne.gameboard.placeShip(+ship.size, ship.name, [+cords[0], +cords[1]], getCurrentAxis())
     const currentCords = getCurrentCords()
     currentCords.map(cord => {
         const element = document.getElementById(`${target.id.split('-')[0]}-${cord}`)
         element.classList.add('filled')
     })
     removeShip()
+    setTimeout(() => {
+        if(playerOne.gameboard.ships.length === 5) {
+            document.getElementById('start-btn').style.visibility = 'visible'
+            document.getElementById('start-btn').addEventListener('click', startGame)
+        }
+    }, 500)
 }
 
 const enterGame = () => {
@@ -52,17 +61,21 @@ const enterGame = () => {
     renderDock()
     hideGameBoard('B')
     enablePlacement()
-    document.getElementById('A').addEventListener('drop', placeShip)
+    playerOneGrid.addEventListener('drop', placeShip)
 }
 
 const startGame = () => {
-    
+    disablePlacement()
+    playerOneGrid.removeEventListener('drop', placeShip)
+    playerTwoGrid.addEventListener('click', attackBoard)
+    showGameBoard('B')
+    hideGameBoard('A')
 }
 
 const attackBoard = (event: Event) => {
     const target = event.target as HTMLElement
     if(target.classList.contains('hit')) return
-    document.getElementById('B').removeEventListener('click', attackBoard)
+    playerTwoGrid.removeEventListener('click', attackBoard)
     const cords = target.id.split('-')
     computer.gameboard.recieveAttack(cords[1])
     if(computer.gameboard.getHitLanded().has(cords[1])) {
@@ -80,6 +93,6 @@ const attackBoard = (event: Event) => {
     setTimeout(() => computerHit(), 2000)
 }
 
-document.getElementById('start-button').addEventListener('click', enterGame)
+document.getElementById('enter-button').addEventListener('click', enterGame)
 
-document.getElementById('B').addEventListener('click', attackBoard)
+playerTwoGrid.addEventListener('click', attackBoard)
