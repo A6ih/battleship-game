@@ -21,12 +21,12 @@ const toggleAxis = (e: Event) => {
     const target = e.target as HTMLElement
     if(target.id === 'y-button') {
         currentAxis = 'y'
-        target.style.borderColor = 'aquamarine'
-        document.getElementById('x-button').style.borderColor = 'black'
+        target.style.border = '2px solid aquamarine'
+        document.getElementById('x-button').style.borderColor = 'white'
     } else {
         currentAxis = 'x'
-        target.style.borderColor = 'aquamarine'
-        document.getElementById('y-button').style.borderColor = 'black'
+        target.style.border = '2px solid aquamarine'
+        document.getElementById('y-button').style.borderColor = 'white'
     }
 }
 
@@ -91,7 +91,7 @@ export const hideGameBoard = (id: string) => {
 }
 
 export const showGameBoard = (id: string) => {
-    document.getElementById(`player-${id}`).style.display = 'block'
+    document.getElementById(`player-${id}`).style.display = 'grid'
 }
 
 export const renderDock = () => {
@@ -99,10 +99,12 @@ export const renderDock = () => {
     const shipContainer = document.getElementById('ship-container')
     shipArr.map(shipObj => {
         const ship = createElement('div', 'id', `${shipObj.name.toLowerCase()}-${shipObj.size}`)
+        const shipDiv = createElement('div', 'class', 'ship-div')
         ship.classList.add('dock-ships')
         ship.setAttribute('draggable', 'true')
         ship.textContent = `${shipObj.name}(${shipObj.size})`
-        shipContainer.appendChild(ship)
+        shipDiv.appendChild(ship)
+        shipContainer.appendChild(shipDiv)
     })
 }
 
@@ -148,14 +150,14 @@ const highlightPlacement = (e: Event) => {
         setTimeout(() => {
             result.map(element => {
             if(!element) return
-             element.style.borderColor = 'red'
+             element.style.border = '8px solid red'
             })
         }, 0)
         currentCords = []
     } else {
         setTimeout(() => {
             result.map(element => {
-            element.style.borderColor = 'green'
+            element.style.border = '8px solid green'
             })
             }, 0)
         currentCords = changeCords
@@ -176,7 +178,7 @@ export const removeHighlight = (e: Event) => {
     changeCords.map(cord => {
         const target = document.getElementById(`${cordsArr[0]}-${cord}`) as HTMLElement
          if(!target) return
-        target.style.borderColor = 'aquamarine'
+        target.style.border = 'none'
      }
     )
 }

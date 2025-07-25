@@ -1,13 +1,7 @@
 import './styles.css';
-import { renderStartGame, getName, renderShipPlacement,
-        renderHitLanded, renderHitMissed, renderDock,
-        hideGameBoard, showGameBoard, getCurrentCords,
-        getCurrentShip, removeHighlight, removeShip,
-        enablePlacement,
-        disablePlacement,
-        getCurrentAxis,
-        resetShips,
-        resetFilledCords} from './dom.ts';
+import { renderStartGame, getName, renderHitLanded, renderHitMissed, renderDock,
+        hideGameBoard, showGameBoard, getCurrentCords, getCurrentShip, removeHighlight, removeShip,
+        enablePlacement, disablePlacement, getCurrentAxis,resetShips, resetFilledCords} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
@@ -15,6 +9,8 @@ let playerOne : Player;
 let computer : Computer
 const playerOneGrid = document.getElementById('A') as HTMLElement
 const playerTwoGrid = document.getElementById('B') as HTMLElement
+hideGameBoard('A')
+hideGameBoard('B')
 
 const computerHit = () => {
     const hit = computer.hitEnemy()
@@ -60,6 +56,7 @@ const enterGame = () => {
     computer.placeShips()
     renderStartGame(playerOne.gameboard.board)
     renderDock()
+    showGameBoard('A')
     hideGameBoard('B')
     enablePlacement()
     playerOneGrid.addEventListener('drop', placeShip)
