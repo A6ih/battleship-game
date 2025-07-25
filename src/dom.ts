@@ -1,4 +1,7 @@
 import { getShipsArr, generateCords, generateCordsVertical } from "./helperFns.ts"
+import { enableDragDropTouch } from "./drag-drop-touch.esm.min.js";
+
+enableDragDropTouch()
 
 type Ship = {
     name: string,
@@ -128,7 +131,6 @@ const highlightPlacement = (e: Event) => {
     e.preventDefault()
     const axis = currentAxis // placeHolder
     const target = e.target as HTMLElement
-    console.log(target.id)
     const cordsArr = target.id.split('-')
     const numberCords = cordsArr[1].split('')
     let changeCords

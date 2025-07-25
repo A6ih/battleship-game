@@ -32,7 +32,6 @@ const computerHit = () => {
 const placeShip = (event: Event) => {
     event.preventDefault()
     const target = event.target as HTMLElement
-    console.log(playerOne.gameboard.ships)
     removeHighlight(event)
     const cords = target.id.split('-')[1].split('')
     if(target.classList.contains('filled')) return
