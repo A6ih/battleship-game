@@ -217,6 +217,16 @@ export const removeShip = () => {
     shipElement.style.visibility = 'hidden'
 }
 
+export const resetShips = () => {
+    const ships = Array.from(document.getElementsByClassName('dock-ships') as HTMLCollectionOf<HTMLElement>)
+    ships.map(ship => ship.style.visibility = 'visible')
+}
+
+export const resetFilledCords = () => {
+    const filledCords = Array.from(document.getElementsByClassName('filled'))
+    filledCords.map(cord => cord.classList.remove('filled'))
+}
+
 const dragShipStart = (e: Event) => {
     const target = e.target as HTMLElement
     const targets = target.id.split('-')

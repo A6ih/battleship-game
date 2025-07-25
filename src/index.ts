@@ -5,7 +5,9 @@ import { renderStartGame, getName, renderShipPlacement,
         getCurrentShip, removeHighlight, removeShip,
         enablePlacement,
         disablePlacement,
-        getCurrentAxis} from './dom.ts';
+        getCurrentAxis,
+        resetShips,
+        resetFilledCords} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
@@ -61,6 +63,7 @@ const enterGame = () => {
     hideGameBoard('B')
     enablePlacement()
     playerOneGrid.addEventListener('drop', placeShip)
+    document.getElementById('reset-placement').addEventListener('click', resetShipPlacement)
 }
 
 const startGame = () => {
@@ -92,6 +95,13 @@ const attackBoard = (event: Event) => {
     setTimeout(() => computerHit(), 2000)
 }
 
-document.getElementById('enter-button').addEventListener('click', enterGame)
+const resetShipPlacement = () => {
+    playerOne.gameboard.filledCords.clear()
+    playerOne.gameboard.ships.length = 0
+    resetFilledCords()
+    resetShips()
+    document.getElementById('start-btn').style.visibility = 'hidden'
+    document.getElementById('start-btn').removeEventListener('click', startGame)
+}
 
-playerTwoGrid.addEventListener('click', attackBoard)
+document.getElementById('enter-button').addEventListener('click', enterGame)
