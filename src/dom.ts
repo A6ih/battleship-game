@@ -150,14 +150,14 @@ const highlightPlacement = (e: Event) => {
         setTimeout(() => {
             result.map(element => {
             if(!element) return
-             element.style.border = '8px solid red'
+             element.style.border = '1rem solid var(--opaque-red)'
             })
         }, 0)
         currentCords = []
     } else {
         setTimeout(() => {
             result.map(element => {
-            element.style.border = '8px solid green'
+            element.style.border = '1rem solid var(--opaque-green)'
             })
             }, 0)
         currentCords = changeCords
@@ -247,14 +247,20 @@ const dragShipEnd = (e: Event) => {
 }
 
 export const enablePlacement = () => {
-    document.getElementById('ship-container').addEventListener('dragstart', dragShipStart)
-    document.getElementById('ship-container').addEventListener('dragend', dragShipEnd)
+    const ships = Array.from(document.getElementsByClassName('dock-ships'))
+    ships.map(ship => {
+        ship.addEventListener('dragstart', dragShipStart)
+        ship.addEventListener('dragend', dragShipEnd)
+    })
     renderControlBtns()
 }
 
 export const disablePlacement = () => {
-    document.getElementById('ship-container').removeEventListener('dragstart', dragShipStart)
-    document.getElementById('ship-container').removeEventListener('dragend', dragShipEnd)
+    const ships = Array.from(document.getElementsByClassName('dock-ships'))
+    ships.map(ship => {
+        ship.removeEventListener('dragstart', dragShipStart)
+        ship.removeEventListener('dragend', dragShipEnd)
+    })
     document.getElementById('dock-container').style.display = 'none'
     document.getElementById('controller-container').style.display = 'none'
 }
