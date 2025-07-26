@@ -233,7 +233,6 @@ button {
   width: 3.5rem;
   height: 3.5rem;
   outline: 1px solid white;
-  border-radius: var(--border-radius);
 }
 
 #dock-container {
@@ -280,7 +279,7 @@ button {
 
 #controller-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 2rem;
   grid-area: controller;
   background-color: var(--opaque-black);
@@ -291,7 +290,7 @@ button {
 #controller-container > button {
     background-color: rgba(0, 0, 0, 0.2);
     color: white;
-    border: 1px solid white;
+    border: 2px solid white;
 }
 
 @media only screen and (min-width: 350px) and (max-width: 600px) {
@@ -372,7 +371,7 @@ button {
 
   input,
   button {
-    border: 1px solid white;
+    border: 2px solid white;
     border-radius: var(--border-radius);
     font-size: 12px;
     padding: 6px 12px;
