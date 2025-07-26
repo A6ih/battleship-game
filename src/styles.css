@@ -160,6 +160,12 @@ a {
 h1 {
   font-size: 5rem;
   margin-top: 6rem;
+  color: white;
+}
+
+label {
+    color: white;
+    font-size: 22px;
 }
 
 h2 {
