@@ -71,6 +71,20 @@ const startGame = () => {
     hideGameBoard('A')
 }
 
+const getWinCondition = () => {
+    if(computer.gameboard.isAllSunk()) {
+        return 'Congrats you win!'
+    } else if (playerOne.gameboard.isAllSunk()) {
+        return 'Computer wins'
+    } else {
+        return false
+    }
+}
+
+const displayWinner = (message: boolean | string) => {
+    setTimeout(() => alert(message), 500)
+}
+
 const attackBoard = (event: Event) => {
     const target = event.target as HTMLElement
     if(target.classList.contains('hit')) return
@@ -84,7 +98,7 @@ const attackBoard = (event: Event) => {
     }
     
     document.getElementById('B').removeEventListener('click', attackBoard)
-    if(computer.gameboard.isAllSunk()) return setTimeout(() => alert('congrats you win'), 500)
+    if(getWinCondition()) return displayWinner(getWinCondition())
     setTimeout(() => {
         hideGameBoard('B')
         showGameBoard('A')

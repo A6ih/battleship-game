@@ -131,7 +131,7 @@ const renderControlBtns = () => {
 
 const highlightPlacement = (e: Event) => {
     e.preventDefault()
-    const axis = currentAxis // placeHolder
+    const axis = currentAxis
     const target = e.target as HTMLElement
     const cordsArr = target.id.split('-')
     const numberCords = cordsArr[1].split('')
@@ -165,7 +165,7 @@ const highlightPlacement = (e: Event) => {
 }
 
 export const removeHighlight = (e: Event) => {
-    const axis = currentAxis // placeHolder
+    const axis = currentAxis
     const target = e.target as HTMLElement
     const cordsArr = target.id.split('-')
     const numberCords = cordsArr[1].split('')

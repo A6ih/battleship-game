@@ -59,6 +59,8 @@ export default class Computer {
   gameboard: Gameboard;
   cordsToHit: string[];
   cordsToPlaceShip: string[];
+  lastHit: boolean;
+  lastHitCord: string;
   constructor() {
     this.name = 'Computer';
     this.gameboard = new Gameboard(10);
@@ -96,5 +98,9 @@ export default class Computer {
       );
       this.gameboard.placeShip(ship.size, ship.name, cords, axis);
     }
+  }
+
+  getLastHit(value: boolean, cord: string) {
+    this.lastHit = value
   }
 }

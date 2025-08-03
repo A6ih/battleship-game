@@ -268,12 +268,10 @@ button {
 }
 
 .hitMissed {
-  border: 10px solid rgba(0, 0, 0, 0.2);
   background-color: green;
 }
 
 .hitLanded {
-  border: 10px solid rgba(0, 0, 0, 0.2);
   background-color: red;
 }
 
