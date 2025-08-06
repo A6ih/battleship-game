@@ -12,25 +12,6 @@ const playerTwoGrid = document.getElementById('B') as HTMLElement
 hideGameBoard('A')
 hideGameBoard('B')
 
-const computerHit = () => {
-    const hit = computer.hitEnemy()
-    playerOne.gameboard.recieveAttack(hit)
-    if(playerOne.gameboard.getHitLanded().has(hit)) {
-        renderHitLanded(`A-${hit}`)
-        computer.getLastHit(true)
-        const ship = playerOne.gameboard.getShip(hit)
-        computer.updateIsSunk(ship.isSunk())
-     } else {
-        computer.getLastHit(false)
-        renderHitMissed(`A-${hit}`)
-     }
-     playerTwoGrid.addEventListener('click', attackBoard)
-     setTimeout(() => {
-        hideGameBoard('A')
-        showGameBoard('B')
-     }, 1000)
-}
-
 const placeShip = (event: Event) => {
     event.preventDefault()
     const target = event.target as HTMLElement
@@ -87,6 +68,27 @@ const getWinCondition = () => {
 
 const displayWinner = (message: boolean | string) => {
     setTimeout(() => alert(message), 500)
+}
+
+const computerHit = () => {
+    const hit = computer.hitEnemy()
+    playerOne.gameboard.recieveAttack(hit)
+    computer.updateAllHits(hit)
+    if(playerOne.gameboard.getHitLanded().has(hit)) {
+        renderHitLanded(`A-${hit}`)
+        computer.getLastHit(true)
+        const ship = playerOne.gameboard.getShip(hit)
+        computer.updateIsSunk(ship.isSunk())
+     } else {
+        computer.getLastHit(false)
+        renderHitMissed(`A-${hit}`)
+     }
+     if(getWinCondition()) return displayWinner(getWinCondition())
+     playerTwoGrid.addEventListener('click', attackBoard)
+     setTimeout(() => {
+        hideGameBoard('A')
+        showGameBoard('B')
+     }, 1000)
 }
 
 const attackBoard = (event: Event) => {
