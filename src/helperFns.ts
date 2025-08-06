@@ -46,3 +46,27 @@ export const generateCordsVertical = (cords: number[], size: number) => {
   }
   return newCords;
 };
+
+export const hitOnLeft = (cord: string): string => {
+  const cords = cord.split('')
+  const numberCords = cords.map(cord => Number(cord))
+  return `${numberCords[0]}${numberCords[1] - 1}`
+}
+
+export const hitOnRight = (cord: string): string => {
+  const cords = cord.split('')
+  const numberCords = cords.map(cord => Number(cord))
+  return `${numberCords[0]}${numberCords[1] + 1}`
+}
+
+export const hitOnUp = (cord: string): string => {
+  const cords = cord.split('')
+  const numberCords = cords.map(cord => Number(cord))
+  return `${numberCords[0] - 1}${numberCords[1]}`
+}
+
+export const hitOnDown = (cord: string): string => {
+  const cords = cord.split('')
+  const numberCords = cords.map(cord => Number(cord))
+  return `${numberCords[0] + 1}${numberCords[1]}`
+}

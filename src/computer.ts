@@ -61,11 +61,14 @@ export default class Computer {
   cordsToPlaceShip: string[];
   lastHit: boolean;
   lastHitCord: string;
+  isEnemyShipSunk: boolean = true;
+  hitLanded: Set<string>;
   constructor() {
     this.name = 'Computer';
     this.gameboard = new Gameboard(10);
     this.cordsToHit = [];
     this.cordsToPlaceShip = [];
+    this.hitLanded = new Set();
   }
 
   fillCords() {
@@ -78,8 +81,12 @@ export default class Computer {
   }
 
   hitEnemy() {
+    if(this.isEnemyShipSunk === false) {
+      const hitCords = this.lastHitCord
+    }
     const number = Math.floor(Math.random() * this.cordsToHit.length);
     const cords = this.cordsToHit[number];
+    this.lastHitCord = cords
     this.cordsToHit.splice(number, 1);
     return cords;
   }
@@ -100,7 +107,11 @@ export default class Computer {
     }
   }
 
-  getLastHit(value: boolean, cord: string) {
+  getLastHit(value: boolean) {
     this.lastHit = value
+  }
+
+  updateIsSunk(isSunk: boolean) {
+    this.isEnemyShipSunk = isSunk
   }
 }

@@ -17,7 +17,11 @@ const computerHit = () => {
     playerOne.gameboard.recieveAttack(hit)
     if(playerOne.gameboard.getHitLanded().has(hit)) {
         renderHitLanded(`A-${hit}`)
+        computer.getLastHit(true)
+        const ship = playerOne.gameboard.getShip(hit)
+        computer.updateIsSunk(ship.isSunk())
      } else {
+        computer.getLastHit(false)
         renderHitMissed(`A-${hit}`)
      }
      playerTwoGrid.addEventListener('click', attackBoard)
@@ -88,6 +92,7 @@ const displayWinner = (message: boolean | string) => {
 const attackBoard = (event: Event) => {
     const target = event.target as HTMLElement
     if(target.classList.contains('hit')) return
+    if(!target.classList.contains('cords')) return
     playerTwoGrid.removeEventListener('click', attackBoard)
     const cords = target.id.split('-')
     computer.gameboard.recieveAttack(cords[1])
@@ -96,8 +101,6 @@ const attackBoard = (event: Event) => {
     } else {
         renderHitMissed(target.id)
     }
-    
-    document.getElementById('B').removeEventListener('click', attackBoard)
     if(getWinCondition()) return displayWinner(getWinCondition())
     setTimeout(() => {
         hideGameBoard('B')

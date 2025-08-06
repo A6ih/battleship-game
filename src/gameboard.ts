@@ -108,5 +108,10 @@ export default class Gameboard {
     isValidPlacement(cords: string[]) {
         const results = cords.map(cord => this.filledCords.has(cord))
         return results.includes(true) ? false : true
-    } 
+    }
+    
+    getShip(cords: string) {
+        const shipObject = this.ships.filter(ship => ship.cords.includes(cords))[0]
+        return shipObject.ship
+    }
 }
