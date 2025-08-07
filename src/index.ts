@@ -84,6 +84,7 @@ const computerHit = () => {
      } else {
         computer.getLastHit(false)
         renderHitMissed(`A-${hit}`)
+        computer.updateMissedHits(hit)
      }
      if(getWinCondition()) return displayWinner(getWinCondition())
      playerTwoGrid.addEventListener('click', attackBoard)

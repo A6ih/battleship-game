@@ -76,6 +76,7 @@ export default class Computer {
   lastHitCord: string;
   isEnemyShipSunk: boolean = true;
   allHits: Set<string>;
+  missedHits: Set<string>;
   validCords: string[];
   firstHitCord: string;
   directions: string[] = ['left', 'right', 'up', 'down']
@@ -86,6 +87,7 @@ export default class Computer {
     this.cordsToHit = [];
     this.cordsToPlaceShip = [];
     this.allHits = new Set();
+    this.missedHits = new Set();
     this.validCords = []
   }
 
@@ -102,39 +104,40 @@ export default class Computer {
   hitEnemy() {
     if(!this.isEnemyShipSunk) {
       const firstHit = this.firstHitCord
+      const firstHitNumber = firstHit.split('').map(string => Number(string))
       const hitCords = this.lastHitCord
-      const NumberCords = hitCords.split('').map(string => Number(string))
+      const numberCords = hitCords.split('').map(string => Number(string))
       let resultCords: string;
       if(!this.lastHit) {
         this.direction = this.directions.shift()
       }
       switch(this.direction) {
         case 'left':
-          if(NumberCords[1] === 0) {
+          if(numberCords[1] === 0 || this.missedHits.has(`${firstHitNumber[0]}${firstHitNumber[1] - 1}`)) {
             this.direction = this.directions.shift()
-            resultCords = getSmartCords(hitOnRight, firstHit, this.allHits, this.validCords)
+             //changes
           } else {
             resultCords = getSmartCords(hitOnLeft, firstHit, this.allHits, this.validCords)
+            break;
           }
-        break;
         case 'right':
-          if(NumberCords[1] === 9) {
+          if(numberCords[1] === 9 || this.missedHits.has(`${firstHitNumber[0]}${firstHitNumber[1] + 1}`)) {
             this.direction = this.directions.shift()
-            resultCords = getSmartCords(hitOnUp, firstHit, this.allHits, this.validCords)
+            
           } else {
             resultCords = getSmartCords(hitOnRight, firstHit, this.allHits, this.validCords)
+            break;
           }
-        break;
         case 'up':
-          if(NumberCords[0] === 0) {
+          if(numberCords[0] === 0 || this.missedHits.has(`${firstHitNumber[0] - 1}${firstHitNumber[1]}`)) {
             this.direction = this.directions.shift()
-            resultCords = getSmartCords(hitOnDown, firstHit, this.allHits, this.validCords)
+            
           } else {
             resultCords = getSmartCords(hitOnUp, firstHit, this.allHits, this.validCords)
+            break;
           }
-        break;
         case 'down':
-          if(NumberCords[0] === 9) {
+          if(numberCords[0] === 9) {
             const number = Math.floor(Math.random() * this.cordsToHit.length);
             resultCords = this.cordsToHit[number];
           } else {
@@ -157,19 +160,19 @@ export default class Computer {
 
     if(this.lastHit) {
       const firstHit = this.firstHitCord
-      const NumberCords = firstHit.split('').map(string => Number(string))
-      if(this.direction === 'left' && NumberCords[1] < 9) {
+      const numberCords = firstHit.split('').map(string => Number(string))
+      if(this.direction === 'left' && numberCords[1] < 9) {
         this.direction = 'right'
         const result = hitOnRight(firstHit)
-        if(this.validCords.includes(result)) {
+        if(this.validCords.includes(result) && !this.missedHits.has(result)) {
           this.cordsToHit.splice(this.cordsToHit.indexOf(result), 1)
           this.lastHitCord = result
           return result
         }
-      } else if(this.direction === 'up' && NumberCords[0] < 9) {
+      } else if(this.direction === 'up' && numberCords[0] < 9) {
         this.direction = 'down'
         const result = hitOnDown(firstHit)
-         if(this.validCords.includes(result)) {
+         if(this.validCords.includes(result) && !this.missedHits.has(result)) {
           this.cordsToHit.splice(this.cordsToHit.indexOf(result), 1)
           this.lastHitCord = result
           return result
@@ -213,5 +216,9 @@ export default class Computer {
 
   updateAllHits(cord: string) {
     this.allHits.add(cord)
+  }
+
+  updateMissedHits(cord: string) {
+    this.missedHits.add(cord)
   }
 }
