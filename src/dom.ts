@@ -8,10 +8,7 @@ type Ship = {
     size: number
 }
 
-let currentShip: Ship = {
-    name: 'Destroyer',
-    size: 5
-}
+let currentShip: Ship;
 
 let currentCords: string[]
 
@@ -100,9 +97,13 @@ export const renderDock = () => {
     shipArr.map(shipObj => {
         const ship = createElement('div', 'id', `${shipObj.name.toLowerCase()}-${shipObj.size}`)
         const shipDiv = createElement('div', 'class', 'ship-div')
+        const shipName = createElement('p', 'class', 'ship-name')
+        shipName.textContent = `${shipObj.name}(${shipObj.size})`
+        shipName.setAttribute('draggable', 'false')
+        shipDiv.setAttribute('draggable', 'false')
         ship.classList.add('dock-ships')
         ship.setAttribute('draggable', 'true')
-        ship.textContent = `${shipObj.name}(${shipObj.size})`
+        ship.appendChild(shipName)
         shipDiv.appendChild(ship)
         shipContainer.appendChild(shipDiv)
     })
@@ -131,6 +132,7 @@ const renderControlBtns = () => {
 
 const highlightPlacement = (e: Event) => {
     e.preventDefault()
+    if(!currentShip) return
     const axis = currentAxis
     const target = e.target as HTMLElement
     const cordsArr = target.id.split('-')
@@ -165,6 +167,7 @@ const highlightPlacement = (e: Event) => {
 }
 
 export const removeHighlight = (e: Event) => {
+    if(!currentShip) return
     const axis = currentAxis
     const target = e.target as HTMLElement
     const cordsArr = target.id.split('-')
@@ -189,6 +192,7 @@ export const activateHighlighting = () => {
         element.addEventListener('dragenter', highlightPlacement)
         element.addEventListener('dragleave', removeHighlight)
         element.addEventListener("dragover", (event) => {
+           event.stopPropagation();
            event.preventDefault();
         }, false,)
     })
@@ -217,11 +221,16 @@ export const getCurrentShip = () => {
 export const removeShip = () => {
     const shipElement = document.getElementById(`${currentShip.name}-${currentShip.size}`)
     shipElement.style.visibility = 'hidden'
+    shipElement.setAttribute('draggable', 'false')
 }
 
 export const resetShips = () => {
     const ships = Array.from(document.getElementsByClassName('dock-ships') as HTMLCollectionOf<HTMLElement>)
-    ships.map(ship => ship.style.visibility = 'visible')
+    ships.map(ship => {
+        ship.style.visibility = 'visible'
+        ship.setAttribute('draggable', 'true')
+    }
+    )
 }
 
 export const resetFilledCords = () => {
@@ -230,7 +239,9 @@ export const resetFilledCords = () => {
 }
 
 const dragShipStart = (e: Event) => {
+    e.stopPropagation()
     const target = e.target as HTMLElement
+    if(!target.classList.contains('dock-ships')) return
     const targets = target.id.split('-')
     const ship = {
         name: targets[0],
@@ -243,6 +254,8 @@ const dragShipStart = (e: Event) => {
 }
 
 const dragShipEnd = (e: Event) => {
+    e.stopPropagation()
+    toggleCurrentShip(undefined)
     disableHighlighting()
 }
 

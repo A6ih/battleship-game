@@ -107,6 +107,12 @@ section {
 }
 body {
   line-height: 1;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 ol,
 ul {
@@ -154,14 +160,14 @@ body {
 }
 
 footer {
-    position: fixed;
-    bottom: 5px;
-    color: white;
-    font-size: 18px;
+  position: fixed;
+  bottom: 5px;
+  color: white;
+  font-size: 18px;
 }
 
 a {
-    color: whitesmoke;
+  color: whitesmoke;
 }
 
 h1 {
@@ -171,8 +177,8 @@ h1 {
 }
 
 label {
-    color: white;
-    font-size: 22px;
+  color: white;
+  font-size: 22px;
 }
 
 h2 {
@@ -286,9 +292,9 @@ button {
 }
 
 #controller-container > button {
-    background-color: rgba(0, 0, 0, 0.2);
-    color: white;
-    border: 2px solid white;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  border: 2px solid white;
 }
 
 @media only screen and (min-width: 350px) and (max-width: 600px) {

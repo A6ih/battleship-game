@@ -15,11 +15,13 @@ hideGameBoard('B')
 const placeShip = (event: Event) => {
     event.preventDefault()
     const target = event.target as HTMLElement
+    if(!target.classList.contains('cords')) return
+    const ship = getCurrentShip()
+    if(!ship) return
     removeHighlight(event)
     const cords = target.id.split('-')[1].split('')
     if(target.classList.contains('filled')) return
     if(getCurrentCords().length === 0) return
-    const ship = getCurrentShip()
     playerOne.gameboard.placeShip(+ship.size, ship.name, [+cords[0], +cords[1]], getCurrentAxis())
     const currentCords = getCurrentCords()
     currentCords.map(cord => {
