@@ -1,6 +1,8 @@
 # battleship-game
 A web based battleship game
 
+Live preview [here](https://a6ih.github.io/battleship-game/)
+
 # Copyright notice for DragDropTouch software
 
 [Link](https://github.com/drag-drop-touch-js/dragdroptouch?tab=MIT-1-ov-file)
