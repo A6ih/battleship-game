@@ -297,10 +297,11 @@ button {
   border: 2px solid white;
 }
 
-@media only screen and (min-width: 350px) and (max-width: 600px) {
+@media only screen and (min-width: 340px) and (max-width: 600px), screen and (max-height: 800px) {
+
   #player-A,
   #player-B {
-    width: 360px;
+    width: 370px;
     margin-top: 3rem;
     display: grid;
     grid-template-areas:
@@ -310,21 +311,22 @@ button {
       "dock dock dock"
       "controller controller controller";
     justify-items: center;
-    padding: 0.5rem;
+    padding: 0;
     gap: 2px;
   }
 
   #A,
   #B {
+    width: 370px;
     display: grid;
-    grid-template-columns: repeat(10, 2rem);
+    grid-template-columns: repeat(10, 35px);
     grid-area: board;
     padding: 0.6rem;
   }
 
   .cords {
-    width: 2rem;
-    height: 2rem;
+    width: 35px;
+    height: 35px;
   }
 
   #dock-container {
