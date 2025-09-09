@@ -279,3 +279,8 @@ export const disablePlacement = () => {
 }
 
 export const getCurrentAxis = () => currentAxis
+
+export const displayGameMsg = (message: string) => {
+    document.querySelector('#game-msg').textContent = '';
+    document.querySelector('#game-msg').textContent = message
+}

@@ -1,7 +1,8 @@
 import './styles.css';
 import { renderStartGame, getName, renderHitLanded, renderHitMissed, renderDock,
         hideGameBoard, showGameBoard, getCurrentCords, getCurrentShip, removeHighlight, removeShip,
-        enablePlacement, disablePlacement, getCurrentAxis,resetShips, resetFilledCords} from './dom.ts';
+        enablePlacement, disablePlacement, getCurrentAxis,resetShips, resetFilledCords,
+        displayGameMsg} from './dom.ts';
 import Player from './player.ts';
 import Computer from './computer.ts';
 
@@ -48,6 +49,7 @@ const enterGame = () => {
     enablePlacement()
     playerOneGrid.addEventListener('drop', placeShip)
     document.getElementById('reset-placement').addEventListener('click', resetShipPlacement)
+    displayGameMsg('Waiting for ship placement...')
 }
 
 const startGame = () => {
@@ -56,6 +58,7 @@ const startGame = () => {
     playerTwoGrid.addEventListener('click', attackBoard)
     showGameBoard('B')
     hideGameBoard('A')
+    displayGameMsg('Waiting for your attack..')
 }
 
 const getWinCondition = () => {
@@ -64,12 +67,12 @@ const getWinCondition = () => {
     } else if (playerOne.gameboard.isAllSunk()) {
         return 'Computer wins'
     } else {
-        return false
+        return ''
     }
 }
 
-const displayWinner = (message: boolean | string) => {
-    setTimeout(() => alert(message), 500)
+const displayWinner = (message: string) => {
+    setTimeout(() => displayGameMsg(message), 500)
 }
 
 const computerHit = () => {
@@ -91,6 +94,7 @@ const computerHit = () => {
      setTimeout(() => {
         hideGameBoard('A')
         showGameBoard('B')
+        displayGameMsg('Waiting for your attack..')
      }, 1000)
 }
 
@@ -110,6 +114,7 @@ const attackBoard = (event: Event) => {
     setTimeout(() => {
         hideGameBoard('B')
         showGameBoard('A')
+        displayGameMsg("Waiting for opponent's attack...")
      }, 1000)
     setTimeout(() => computerHit(), 2000)
 }

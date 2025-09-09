@@ -192,11 +192,28 @@ h2 {
   width: 100%;
 }
 
+#welcome-msg, aside {
+  padding: 0.6rem;
+  background-color: var(--opaque-black);
+  border-radius: var(--border-radius);
+}
+
+aside {
+  margin-top: 4px
+}
+
+#welcome-msg > p, #game-msg {
+  color: white;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
 #login-screen,
 #name-input {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -298,7 +315,9 @@ button {
 }
 
 @media only screen and (min-width: 340px) and (max-width: 600px), screen and (max-height: 800px) {
-
+  body {
+    padding: 4px;
+  }
   #player-A,
   #player-B {
     width: 370px;
